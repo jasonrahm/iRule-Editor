@@ -1,0 +1,116 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'connect.ui'
+#
+# Created: Wed Apr 13 11:33:23 2011
+#      by: PyQt4 UI code generator 4.8.3
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt4 import QtCore, QtGui
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
+class Ui_dia_connect(object):
+    def setupUi(self, dia_connect):
+        dia_connect.setObjectName(_fromUtf8("dia_connect"))
+        dia_connect.setWindowModality(QtCore.Qt.ApplicationModal)
+        dia_connect.resize(305, 261)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("../icons/App.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        dia_connect.setWindowIcon(icon)
+        dia_connect.setInputMethodHints(QtCore.Qt.ImhHiddenText)
+        self.verticalLayout_2 = QtGui.QVBoxLayout(dia_connect)
+        self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
+        self.verticalLayout = QtGui.QVBoxLayout()
+        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        self.formLayout = QtGui.QFormLayout()
+        self.formLayout.setObjectName(_fromUtf8("formLayout"))
+        self.lbl_hostname = QtGui.QLabel(dia_connect)
+        self.lbl_hostname.setObjectName(_fromUtf8("lbl_hostname"))
+        self.formLayout.setWidget(0, QtGui.QFormLayout.LabelRole, self.lbl_hostname)
+        self.cb_hostname = QtGui.QComboBox(dia_connect)
+        self.cb_hostname.setEditable(True)
+        self.cb_hostname.setInsertPolicy(QtGui.QComboBox.InsertAlphabetically)
+        self.cb_hostname.setObjectName(_fromUtf8("cb_hostname"))
+        self.formLayout.setWidget(0, QtGui.QFormLayout.FieldRole, self.cb_hostname)
+        self.lbl_username = QtGui.QLabel(dia_connect)
+        self.lbl_username.setObjectName(_fromUtf8("lbl_username"))
+        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.lbl_username)
+        self.le_username = QtGui.QLineEdit(dia_connect)
+        self.le_username.setObjectName(_fromUtf8("le_username"))
+        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.le_username)
+        self.lbl_password = QtGui.QLabel(dia_connect)
+        self.lbl_password.setObjectName(_fromUtf8("lbl_password"))
+        self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.lbl_password)
+        self.le_password = QtGui.QLineEdit(dia_connect)
+        self.le_password.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText)
+        self.le_password.setEchoMode(QtGui.QLineEdit.Password)
+        self.le_password.setObjectName(_fromUtf8("le_password"))
+        self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.le_password)
+        self.cb_proxy = QtGui.QCheckBox(dia_connect)
+        self.cb_proxy.setObjectName(_fromUtf8("cb_proxy"))
+        self.formLayout.setWidget(3, QtGui.QFormLayout.LabelRole, self.cb_proxy)
+        self.lbl_pxyusername = QtGui.QLabel(dia_connect)
+        self.lbl_pxyusername.setObjectName(_fromUtf8("lbl_pxyusername"))
+        self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.lbl_pxyusername)
+        self.le_pxyusername = QtGui.QLineEdit(dia_connect)
+        self.le_pxyusername.setObjectName(_fromUtf8("le_pxyusername"))
+        self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.le_pxyusername)
+        self.lbl_pxypass = QtGui.QLabel(dia_connect)
+        self.lbl_pxypass.setObjectName(_fromUtf8("lbl_pxypass"))
+        self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.lbl_pxypass)
+        self.le_pxypass = QtGui.QLineEdit(dia_connect)
+        self.le_pxypass.setInputMethodHints(QtCore.Qt.ImhHiddenText|QtCore.Qt.ImhNoAutoUppercase|QtCore.Qt.ImhNoPredictiveText)
+        self.le_pxypass.setEchoMode(QtGui.QLineEdit.Password)
+        self.le_pxypass.setObjectName(_fromUtf8("le_pxypass"))
+        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.le_pxypass)
+        self.cb_savehistory = QtGui.QCheckBox(dia_connect)
+        self.cb_savehistory.setObjectName(_fromUtf8("cb_savehistory"))
+        self.formLayout.setWidget(6, QtGui.QFormLayout.LabelRole, self.cb_savehistory)
+        self.checkBox = QtGui.QCheckBox(dia_connect)
+        self.checkBox.setObjectName(_fromUtf8("checkBox"))
+        self.formLayout.setWidget(6, QtGui.QFormLayout.FieldRole, self.checkBox)
+        self.verticalLayout.addLayout(self.formLayout)
+        spacerItem = QtGui.QSpacerItem(20, 18, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        self.horizontalLayout = QtGui.QHBoxLayout()
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        self.pb_cancel = QtGui.QPushButton(dia_connect)
+        self.pb_cancel.setObjectName(_fromUtf8("pb_cancel"))
+        self.horizontalLayout.addWidget(self.pb_cancel)
+        self.pb_ok = QtGui.QPushButton(dia_connect)
+        self.pb_ok.setObjectName(_fromUtf8("pb_ok"))
+        self.horizontalLayout.addWidget(self.pb_ok)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout_2.addLayout(self.verticalLayout)
+
+        self.retranslateUi(dia_connect)
+        QtCore.QObject.connect(self.pb_cancel, QtCore.SIGNAL(_fromUtf8("clicked()")), dia_connect.reject)
+        QtCore.QObject.connect(self.le_password, QtCore.SIGNAL(_fromUtf8("returnPressed()")), self.pb_ok.click)
+        QtCore.QObject.connect(self.pb_ok, QtCore.SIGNAL(_fromUtf8("clicked()")), dia_connect.accept)
+        QtCore.QMetaObject.connectSlotsByName(dia_connect)
+        dia_connect.setTabOrder(self.cb_hostname, self.le_username)
+        dia_connect.setTabOrder(self.le_username, self.le_password)
+        dia_connect.setTabOrder(self.le_password, self.cb_proxy)
+        dia_connect.setTabOrder(self.cb_proxy, self.le_pxyusername)
+        dia_connect.setTabOrder(self.le_pxyusername, self.le_pxypass)
+        dia_connect.setTabOrder(self.le_pxypass, self.cb_savehistory)
+        dia_connect.setTabOrder(self.cb_savehistory, self.checkBox)
+
+    def retranslateUi(self, dia_connect):
+        dia_connect.setWindowTitle(QtGui.QApplication.translate("dia_connect", "Connect to BIG-IP", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_hostname.setText(QtGui.QApplication.translate("dia_connect", "Hostname", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_username.setText(QtGui.QApplication.translate("dia_connect", "Username", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_password.setText(QtGui.QApplication.translate("dia_connect", "Password", None, QtGui.QApplication.UnicodeUTF8))
+        self.cb_proxy.setText(QtGui.QApplication.translate("dia_connect", "Proxy", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_pxyusername.setText(QtGui.QApplication.translate("dia_connect", "Proxy Username", None, QtGui.QApplication.UnicodeUTF8))
+        self.lbl_pxypass.setText(QtGui.QApplication.translate("dia_connect", "Proxy Password", None, QtGui.QApplication.UnicodeUTF8))
+        self.cb_savehistory.setText(QtGui.QApplication.translate("dia_connect", "Save History?", None, QtGui.QApplication.UnicodeUTF8))
+        self.checkBox.setText(QtGui.QApplication.translate("dia_connect", "Clear History?", None, QtGui.QApplication.UnicodeUTF8))
+        self.pb_cancel.setText(QtGui.QApplication.translate("dia_connect", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        self.pb_ok.setText(QtGui.QApplication.translate("dia_connect", "Ok", None, QtGui.QApplication.UnicodeUTF8))
+
