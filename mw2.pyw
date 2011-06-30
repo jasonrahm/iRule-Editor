@@ -96,6 +96,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 			ruledef.rule_definition = cur_ruleContents
 			try:
 				gtm.modify_rule(rules = [ruledef])
+				self.labelSyntaxCheckResults.setText('Rule Saved.')
 			except Exception, e:
 				gre_qmb = QMessageBox()
 				QMessageBox.about(gre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
@@ -106,6 +107,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 			ruledef.rule_definition = cur_ruleContents
 			try:
 				ltm.modify_rule(rules = [ruledef])
+				self.labelSyntaxCheckResults.setText('Rule Saved.')
 			except Exception, e:
 				lre_qmb = QMessageBox()
 				QMessageBox.about(lre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
