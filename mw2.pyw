@@ -93,10 +93,9 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 
 	def checkSyntax(self):
 		cur_ruleName = self.treeWidget_iRulesList.currentItem()
-		#cur_module = self.treeWidget_iRulesList.topLevelItem(0)
 		cur_module = cur_ruleName.parent()
-
 		cur_ruleContents = unicode(self.textEdit_ScriptCanvas.text())
+		
 		print "%s, %s\n\n%s" % (cur_module.text(0), cur_ruleName.text(0), cur_ruleContents)
 
 	def connectDialog(self):
