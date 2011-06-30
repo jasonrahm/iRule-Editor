@@ -34,6 +34,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 		self.actionAbout_F5_Editor.triggered.connect(self.about)
 		self.actionData_Group_Editor.triggered.connect(self.dgDialog)
 		self.treeWidget_iRulesList.itemClicked.connect(self.displayRule)
+		self.actionCheck_Syntax.triggered.connect(self.checkSyntax)
 
 		self.textEdit_ScriptCanvas.clear()
 		# define the font
@@ -89,6 +90,14 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 	#
 	#    try:
 	#        ltm.modify_rule(rule_names = [active_rule.keys()[0]])
+
+	def checkSyntax(self):
+		cur_ruleName = self.treeWidget_iRulesList.currentItem()
+		#cur_module = self.treeWidget_iRulesList.topLevelItem(0)
+		cur_module = cur_ruleName.parent()
+
+		cur_ruleContents = unicode(self.textEdit_ScriptCanvas.text())
+		print "%s, %s\n\n%s" % (cur_module.text(0), cur_ruleName.text(0), cur_ruleContents)
 
 	def connectDialog(self):
 		if self.actionConnect.isChecked():
