@@ -16,8 +16,9 @@ __author__ = 'j.rahm@f5.com'
 
 ltm_rules = []
 gtm_rules = []
-# added 5/6/2011 - untested
-active_rule = dict()
+ltm, gtm, dg, sysinfo = '','','',''
+
+
 
 # Create a class for our main window
 class Main(QMainWindow, Ui_mw_F5Editor):
@@ -29,7 +30,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 		# QActions on Editor Menubar / Toolbar
 		self.actionConnect.triggered.connect(self.connectDialog)
 		self.actionNew.triggered.connect(self.newDialog)
-		#self.actionSave.triggered.connect(self.saveRule)
+		self.actionSave.triggered.connect(self.saveRule)
 		self.actionRefresh.triggered.connect(self.refreshRules)
 		self.actionAbout_F5_Editor.triggered.connect(self.about)
 		self.actionData_Group_Editor.triggered.connect(self.dgDialog)
@@ -78,25 +79,68 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 		for i in ltm_rules:
 			if i.rule_name == item.text(0):
 				self.textEdit_ScriptCanvas.setText(i.rule_definition)
-				# added 5/6/2011 - untested
-				#active_rule[i.rule_name] = i.rule_definition
+
 		for i in gtm_rules:
 			if i.rule_name == item.text(0):
 				self.textEdit_ScriptCanvas.setText(i.rule_definition)
-				# added 5/6/2011 - untested
-				#active_rule[i.rule_name] = i.rule_definition
 
-	#def saveRule(self):
-	#
-	#    try:
-	#        ltm.modify_rule(rule_names = [active_rule.keys()[0]])
+
+	def saveRule(self):
+		cur_ruleName = self.treeWidget_iRulesList.currentItem()
+		cur_module = cur_ruleName.parent()
+		cur_ruleContents = unicode(self.textEdit_ScriptCanvas.text())
+
+		if cur_module.text(0) == 'Global Traffic Manager':
+			ruledef = gtm.typefactory.create('GlobalLB.Rule.RuleDefinition')
+			ruledef.rule_name = cur_ruleName.text(0)
+			ruledef.rule_definition = cur_ruleContents
+			try:
+				gtm.modify_rule(rules = [ruledef])
+			except Exception, e:
+				gre_qmb = QMessageBox()
+				QMessageBox.about(gre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
+
+		if cur_module.text(0) == 'Local Traffic Manager':
+			ruledef = ltm.typefactory.create('LocalLB.Rule.RuleDefinition')
+			ruledef.rule_name = cur_ruleName.text(0)
+			ruledef.rule_definition = cur_ruleContents
+			try:
+				ltm.modify_rule(rules = [ruledef])
+			except Exception, e:
+				lre_qmb = QMessageBox()
+				QMessageBox.about(lre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
+
 
 	def checkSyntax(self):
 		cur_ruleName = self.treeWidget_iRulesList.currentItem()
 		cur_module = cur_ruleName.parent()
 		cur_ruleContents = unicode(self.textEdit_ScriptCanvas.text())
 		
-		print "%s, %s\n\n%s" % (cur_module.text(0), cur_ruleName.text(0), cur_ruleContents)
+		if cur_module.text(0) == 'Global Traffic Manager':
+			ruledef = gtm.typefactory.create('GlobalLB.Rule.RuleDefinition')
+			ruledef.rule_name = 'checkSyntax_tmpRule'
+			ruledef.rule_definition = cur_ruleContents
+			try:
+				gtm.create(rules = [ruledef])
+				gtm.delete_rule(rule_names = ['checkSyntax_tmpRule'])
+				gre_qmb = QMessageBox()
+				QMessageBox.about(gre_qmb, 'Syntax Check', '<b>iRule Syntax OK</b>')
+			except Exception, e:
+				gre_qmb = QMessageBox()
+				QMessageBox.about(gre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
+
+		if cur_module.text(0) == 'Local Traffic Manager':
+			ruledef = ltm.typefactory.create('LocalLB.Rule.RuleDefinition')
+			ruledef.rule_name = 'checkSyntax_tmpRule'
+			ruledef.rule_definition = cur_ruleContents
+			try:
+				ltm.create(rules = [ruledef])
+				ltm.delete_rule(rule_names = ['checkSyntax_tmpRule'])
+				lre_qmb = QMessageBox()
+				QMessageBox.about(lre_qmb, 'Syntax Check', 'iRule Syntax OK')
+			except Exception, e:
+				lre_qmb = QMessageBox()
+				QMessageBox.about(lre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
 
 	def connectDialog(self):
 		if self.actionConnect.isChecked():
@@ -134,12 +178,14 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 				fromurl = True,
 				wsdls = ['LocalLB.Rule', 'LocalLB.Class', 'GlobalLB.Rule', 'System.SystemInfo'])
 
+			global ltm, gtm, dg, sysinfo
+			
 			ltm = b.LocalLB.Rule
 			gtm = b.GlobalLB.Rule
 			dg = b.LocalLB.Class
 			sysinfo = b.System.SystemInfo
 
-			return (ltm, gtm, dg, sysinfo)
+			return ltm, gtm, dg, sysinfo
 
 		except Exception, e:
 			qmb = QMessageBox()
@@ -165,7 +211,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 		# Get System Info
 		ltm_sysinfo = sysinfo.get_system_information()
 
-		hdr = QTreeWidgetItem(['gtm'])
+		hdr = QTreeWidgetItem(['Global Traffic Manager'])
 		self.treeWidget_iRulesList.addTopLevelItem(hdr)
 		self.treeWidget_iRulesList.expandItem(hdr)
 		i = []
@@ -173,7 +219,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 			rule = QTreeWidgetItem(hdr, [i])
 			self.treeWidget_iRulesList.addTopLevelItem(rule)
 
-		hdr = QTreeWidgetItem(['ltm'])
+		hdr = QTreeWidgetItem(['Local Traffic Manager'])
 		self.treeWidget_iRulesList.addTopLevelItem(hdr)
 		self.treeWidget_iRulesList.expandItem(hdr)
 		i = []
