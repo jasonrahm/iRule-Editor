@@ -145,12 +145,13 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 				QMessageBox.about(lre_qmb, 'Error', '''<b>Save Error</b><p>%s''' % e)
 
 	def connectDialog(self):
+		global ltm, gtm, dg, sysinfo
 		if self.actionConnect.isChecked():
 			self.connectdlg = ConnectDlg()
 			self.connectdlg.exec_()
 			if self.connectdlg.result() == QDialog.Accepted:
 				ltm, gtm, dg, sysinfo = self.get_objects(self.connectdlg.host, self.connectdlg.uname, self.connectdlg.upass)
-				self.loadData(ltm, gtm, dg, sysinfo)
+				self.loadData()
 				self.labelSyntaxCheckResults.clear()
 				self.labelSyntaxCheckResults.setText('Connected to %s' % self.connectdlg.host)
 				self.actionConnect.setIcon(QIcon('icons/default/ToolbarDisconnect.png'))
@@ -161,14 +162,14 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 			self.actionConnect.setText('Disconnect')
 			self.textEdit_ScriptCanvas.clear()
 			self.treeWidget_iRulesList.clear()
+			ltm, gtm, dq, sysinfo = '','','',''
 
 	def refreshRules(self):
 		if self.actionConnect.isChecked():
 			self.labelSyntaxCheckResults.setText('Refreshing...')
 			self.textEdit_ScriptCanvas.clear()
 			self.treeWidget_iRulesList.clear()
-			# where do I pass ltm, gtm, dg, sysinfo into this refresh def?
-			self.loadData(ltm, gtm, dg, sysinfo)
+			self.loadData()
 			self.labelSyntaxCheckResults.setText('Rules refreshed.')
 
 	def get_objects(self, host, uname, upass):
@@ -193,7 +194,7 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 			qmb = QMessageBox()
 			QMessageBox.about(qmb, 'Error', '''<b>Connection Error</b><p>%s''' % e)
 
-	def loadData(self, ltm, gtm, dg, sysinfo):
+	def loadData(self):
 		self.treeWidget_iRulesList.clear()
 		self.treeWidget_iRulesList.setColumnCount(1)
 		self.treeWidget_iRulesList.setHeaderLabels(["Rules"])
@@ -233,7 +234,9 @@ class Main(QMainWindow, Ui_mw_F5Editor):
 
 	def newDialog(self):
 		self.newdlg = NewDlg()
-		self.newdlg.show()
+		self.newdlg.exec_()
+		if self.newdlg.result() == QDialog.Accepted:
+			print "%s, %s" % (self.newdlg.le_scriptname.text(), self.newdlg.cb_scripttype.itemText(0))
 
 	def dgDialog(self):
 		self.dgdlg = DgDlg()
